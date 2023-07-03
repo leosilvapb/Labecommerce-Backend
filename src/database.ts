@@ -1,7 +1,12 @@
 import { TProducts, TUsers } from "./types";
 
-const data = (new Date()).getTimezoneOffset() * 60000;
-const dataBase = (new Date(Date.now() - data)).toISOString();
+const dataAtualizada = () => {
+    const data = (new Date()).getTimezoneOffset() * 60000;
+    const dataBase = (new Date(Date.now() - data)).toISOString();
+
+    return dataBase
+}
+
 
 export const users: TUsers[] = [
     {
@@ -9,13 +14,13 @@ export const users: TUsers[] = [
         name: "Fulano",
         email: "fulano@email.com",
         password: "fulano123",
-        createdAt: dataBase
+        createdAt: dataAtualizada()
     }, {
         id: "u002",
         name: "Beltrana",
         email: "beltrana@email.com",
         password: "beltrana00",
-        createdAt: dataBase
+        createdAt: dataAtualizada()
     }
 ]
 
@@ -35,24 +40,32 @@ export const products: TProducts[] = [
     }
 ]
 
-export const createUser = (id: string, name: string, email: string, password: string): void => {
+export const createUser = (id: string, name: string, email: string, password: string): string => {
     const newUser: TUsers = {
         id,
         name,
         email,
         password,
-        createdAt: dataBase
+        createdAt: dataAtualizada()
     }
     users.push(newUser)
-    console.log("Cadrastro realizado com sucesso");
-
+    return ("Cadastro realizado com sucesso")
 }
 
 export const getAllUsers = (): TUsers[] => {
     return users
 }
 
-export const createProduct = (id: string, name: string, price: number, description: string, imageUrl: string) => {
+// export const searchUsersByName = (name: string): TUsers[] => {
+//     const result = users.filter((user1) => {
+//         return user1.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())
+//     })
+
+//     return result
+// }
+
+
+export const createProduct = (id: string, name: string, price: number, description: string, imageUrl: string): string => {
     const newProduct: TProducts = {
         id,
         name,
@@ -61,7 +74,7 @@ export const createProduct = (id: string, name: string, price: number, descripti
         imageUrl
     }
     products.push(newProduct)
-    console.log("Produto criado com sucesso");
+    return ("Produto cadastrado com sucesso");
 
 }
 
@@ -76,3 +89,4 @@ export const searchProductsByName = (name: string): TProducts[] => {
 
     return result
 }
+
