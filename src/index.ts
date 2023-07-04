@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
-import { createProduct, createUser, getAllProducts, getAllUsers, products, searchProductsByName, users } from "./database";
+import { createProduct, createUser, getAllProducts, getAllUsers, products, searchProductsByName, searchUsersByName, users } from "./database";
 
 // console.log("Olá, iniciei meu projeto");
 
@@ -45,17 +45,19 @@ app.get('/products/search', (req: Request, res: Response) => {
     }
 })
 
-// app.get('/users/search', (req: Request, res: Response) => {
-//     const name = req.query.name as string
+app.get('/users/search', (req: Request, res: Response) => {
+    const name = req.query.name as string
 
-//     if (name) {
-//         const result = searchUsersByName(name)
-//         res.status(200).send(result)
+    if (name) {
+        const result = searchUsersByName(name)
+        res.status(200).send(result)
 
-//     } else {
-//         res.status(200).send("não deu certo")
-//     }
-// })
+    } else {
+        res.status(200).send(users)
+    }
+
+
+})
 
 
 app.post('/users', (req: Request, res: Response) => {
@@ -77,4 +79,52 @@ app.post('/products', (req: Request, res: Response) => {
 
     const newProduct: string = createProduct(id, name, price, description, imageUrl)
     res.status(201).send(newProduct)
+})
+
+app.delete('/users/:id', (req: Request, res: Response) => {
+    const idToDelete = req.params.id
+    const userIndex = users.findIndex((user) => user.id === idToDelete)
+
+    if (userIndex >= 0) {
+        users.splice(userIndex, 1)
+
+        res.status(200).send("Usuário deletado com sucesso")
+    }
+})
+
+app.delete('/products/:id', (req: Request, res: Response) => {
+    const idToDelete = req.params.id
+    const productsIndex = products.findIndex((product) => product.id === idToDelete)
+
+    if (productsIndex >= 0) {
+        products.splice(productsIndex, 1)
+
+        res.status(200).send("Produto deletado com sucesso")
+    }
+})
+
+app.put('/products/:id', (req: Request, res: Response) => {
+    const idToFind = req.params.id
+
+    const newId = req.body.id as string | undefined
+    const newName = req.body.name as string | undefined
+    const newPrice = req.body.price as number | undefined as number
+    const newDescription = req.body.description as string | undefined
+    const newImageUrl = req.body.imageUrl as string | undefined
+
+    const product = products.find((product) => product.id === idToFind)
+
+    if (product) {
+        product.id = newId || product.id
+        product.name = newName || product.name
+        product.description = newDescription || product.description
+        product.imageUrl = newImageUrl || product.imageUrl
+        product.price = isNaN(newPrice) ? product.price : newPrice
+
+        if (product.price !== undefined) {
+            res.status(200).send("Produto atualizado com sucesso")
+        }
+    }
+
+
 })

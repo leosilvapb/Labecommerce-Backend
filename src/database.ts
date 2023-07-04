@@ -56,13 +56,13 @@ export const getAllUsers = (): TUsers[] => {
     return users
 }
 
-// export const searchUsersByName = (name: string): TUsers[] => {
-//     const result = users.filter((user1) => {
-//         return user1.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())
-//     })
+export const searchUsersByName = (name: string): TUsers[] => {
+    const result = users.filter((user1) => {
+        return user1.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())
+    })
 
-//     return result
-// }
+    return result
+}
 
 
 export const createProduct = (id: string, name: string, price: number, description: string, imageUrl: string): string => {
