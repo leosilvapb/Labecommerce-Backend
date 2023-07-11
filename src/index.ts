@@ -217,7 +217,7 @@ app.put('/products/:id', (req: Request, res: Response) => {
         console.log(idToEdit);
 
 
-        if (idToEdit === ":id") /* ":id"  é o resultado que retorna caso não seja digitado nenhum valor no campo Id na busca no postman */ {
+        if (!idToEdit) /* ":id"  é o resultado que retorna caso não seja digitado nenhum valor no campo Id na busca no postman */ {
             res.status(400)
             throw new Error("Id não foi informada")
         }
