@@ -222,8 +222,8 @@ VALUES ('purch001', 'prod006', 2), ('purch002', 'prod002', 3), ('purch003', 'pro
 SELECT * FROM purchases_products;
 
 SELECT
-    purchases_products.purchase_id,
-    purchases_products.product_id,
+    purchases_products.purchase_id AS purchaseId,
+    purchases_products.product_id AS productId,
     purchases_products.quantity,
     purchases.buyer AS userId,
     purchases.created_at AS purchaseDate,
@@ -238,3 +238,7 @@ FROM purchases_products
     INNER JOIN products ON purchases_products.product_id = products.id;
 
 DROP TABLE purchases_products;
+
+SELECT * FROM products;
+
+SELECT * FROM purchases;
